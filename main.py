@@ -22,7 +22,8 @@ lora_config = LoraConfig(
     task_type="SEQ_CLS",
     r=8,
     lora_alpha=16,
-    lora_dropout=0.1
+    lora_dropout=0.1,
+    target_modules=["q_lin", "v_lin"]
 )
 model = get_peft_model(model, lora_config)
 model.print_trainable_parameters()
@@ -40,7 +41,7 @@ for text in samples:
 
 args = TrainingArguments(
     output_dir="lora-imdb-distilbert",
-    evaluation_strategy="epoch",
+    eval_strategy="epoch",
     save_strategy="epoch",
     learning_rate=2e-4,
     per_device_train_batch_size=16,
